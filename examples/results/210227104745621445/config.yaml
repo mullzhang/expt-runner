@@ -1,0 +1,11 @@
+model:
+  num_variables: 5
+  parameters:
+    vartype: SPIN
+    low: 0.0
+    high: 1.0
+    seed: 1
+solver:
+  name: random
+  parameters:
+    num_reads: 10
