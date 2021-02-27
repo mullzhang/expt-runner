@@ -55,15 +55,59 @@ def get_solver(name):
     return solver
 
 
+def example_update_config(path_config, path_result_dir):
+    """Example of run chaging particular parameters"""
+    expt = ExptExample()
+    expt.load_config(path_config)
+
+    num_reads_list = [5, 10, 15]
+    for n in num_reads_list:
+        expt.update_config(
+            solver=dict(parameters=dict(num_reads=n))
+        )
+        logger.info(expt.config)
+        expt.setup()
+        expt.run()
+        # expt.save_result(path_result_dir)
+
+
+def example_iterative_run(path_config, path_result_dir):
+    """Example of running iteratively for the same model"""
+    expt = ExptExample()
+    expt.load_config(path_config)
+    logger.info(expt.config)
+    expt.setup()  # ex. Need much time to make model
+
+    num_iters = 10
+    for t in range(num_iters):
+        logger.info(f'iteration: {t}')
+        expt.run()
+        # expt.save_result(path_result_dir)
+
+
+def example_load_result(path_config, path_result_dir):
+    """Example of loading results"""
+    expt = ExptExample()
+    expt.load_config(path_config)
+    logger.info(expt.config)
+    # expt.setup()  # If necessary
+
+    path_list = expt.search_result(path_result_dir, multiple=True)
+    if path_list is None:
+        logger.info('not fount results')
+        return
+
+    for path_save_dir in path_list:
+        logger.info(path_save_dir)
+
+
 def main():
     path_config = './config/example.yaml'
     path_result_dir = './results'
 
-    expt = ExptExample()
-    expt.load_config(path_config)
-    expt.setup()
-    expt.run()
-    expt.save_result(path_result_dir)
+    # example_update_config(path_config, path_result_dir)
+    # example_iterative_run(path_config, path_result_dir)
+    example_load_result(path_config, path_result_dir)
 
 
 if __name__ == '__main__':
