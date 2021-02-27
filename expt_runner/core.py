@@ -99,6 +99,8 @@ class BaseExpt:
                 else:
                     return path
 
+        return path_list
+
     def setup(self):
         pass
 
